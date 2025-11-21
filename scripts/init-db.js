@@ -5,7 +5,7 @@ dotenv.config({ path: '.env.development.local' });
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
-  console.error('Fehlende DATABASE_URL in Umgebungsvariablen');
+  console.error('Missing DATABASE_URL environment variable');
   process.exit(1);
 }
 
@@ -34,7 +34,7 @@ async function init() {
       BEFORE UPDATE ON users
       FOR EACH ROW
       EXECUTE PROCEDURE set_updated_at();`;
-    console.log('users Tabelle ist bereit.');
+    console.log('users table ready.');
 
     await sql`CREATE TABLE IF NOT EXISTS search_queries (
       id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -44,9 +44,9 @@ async function init() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );`;
     await sql`CREATE INDEX IF NOT EXISTS idx_search_queries_user_id_created_at ON search_queries(user_id, created_at DESC);`;
-    console.log('search_queries Tabelle ist bereit.');
+    console.log('search_queries table ready.');
   } catch (err) {
-    console.error('Fehler beim Initialisieren der DB:', err);
+    console.error('Error initializing database:', err);
     process.exit(1);
   }
 }
