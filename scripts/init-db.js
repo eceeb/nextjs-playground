@@ -35,6 +35,16 @@ async function init() {
       FOR EACH ROW
       EXECUTE PROCEDURE set_updated_at();`;
     console.log('users Tabelle ist bereit.');
+
+    await sql`CREATE TABLE IF NOT EXISTS search_queries (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      search_term TEXT NOT NULL,
+      website_url TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_search_queries_user_id_created_at ON search_queries(user_id, created_at DESC);`;
+    console.log('search_queries Tabelle ist bereit.');
   } catch (err) {
     console.error('Fehler beim Initialisieren der DB:', err);
     process.exit(1);
