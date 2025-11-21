@@ -10,7 +10,8 @@
     "lint": "eslint",
     "init:db": "node scripts/init-db.js",
     "test:user": "tsx scripts/test-user.ts",
-    "test:search": "tsx scripts/test-search.ts"
+    "test:search": "tsx scripts/test-search.ts",
+    "inspect:db": "tsx scripts/inspect-db.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
